@@ -26,3 +26,15 @@
     cursor: pointer;
     transition: background-color 0.3s;
 }
+.red-disc{
+    width: 90px;
+    height: 90px;
+    background-color: red;
+    border-radius: 50%;
+}
+.yellow-disc{
+    width: 90px;
+    height: 90px;
+    background-color: yellow;
+    border-radius: 50%;
+}

@@ -18,17 +18,16 @@ const Board = () => {
                 setBoard(newBoard); 
                 setCurrentPlayer(currentPlayer === "R" ? "Y" : "R");
                 break;
-            }};
+            }}
 
-   
-    
+    }
   return (
     <div style={{justifyContent:'center',alignItems:'center'}}>
         <h1>Connect Four Board</h1>
         <div className='board'>
-        {Array.from({length: rows}).fill(0).map((a,rowindex)=>(
+        {board.map((a,rowindex)=>(
             <div key={rowindex} className='row'>
-                {Array(cols).fill(0).map((b,colindex)=>(
+                {a.map((b,colindex)=>(
                     <div key={colindex} className='col'
                     onClick={()=>handleClickCell(colindex)}>
                         {b == "R" && <div className='red-disc'></div>}
@@ -41,6 +40,6 @@ const Board = () => {
       
     </div>
   )
-}}
+}
 
 export default Board

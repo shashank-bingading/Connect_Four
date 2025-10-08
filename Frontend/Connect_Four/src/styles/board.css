@@ -31,10 +31,12 @@
     height: 90px;
     background-color: red;
     border-radius: 50%;
+    border-color: brown;
 }
 .yellow-disc{
     width: 90px;
     height: 90px;
     background-color: yellow;
     border-radius: 50%;
+    border-color: palevioletred;
 }

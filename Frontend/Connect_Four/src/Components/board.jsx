@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/board.css";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 const Board = () => {
   const rows = 6;
@@ -13,6 +13,11 @@ const Board = () => {
   const [currentPlayer, setCurrentPlayer] = useState("R");
 
   const [winner, setWinner] = useState(null);
+  useEffect(() =>{ 
+    const win = checkWinner(board);
+    if (win){
+      setWinner(win);}
+    },[board]);
 
   const handleClickCell = (colIndex) => {
     if (winner) return;
@@ -21,13 +26,9 @@ const Board = () => {
         const newBoard = board.map((ro) => [...ro]);
         newBoard[row][colIndex] = currentPlayer;
         setBoard(newBoard);
-        const win = checkWinner(newBoard);
-        if (win) {
-          setWinner(win);
-        } else {
-          setCurrentPlayer(currentPlayer === "R" ? "Y" : "R");
-          break;
-        }
+        setCurrentPlayer(currentPlayer === "R" ? "Y" : "R");
+        break;
+        
       }
     }
   };

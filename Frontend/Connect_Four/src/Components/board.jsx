@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/board.css";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const Board = () => {
   const rows = 6;
@@ -13,11 +13,12 @@ const Board = () => {
   const [currentPlayer, setCurrentPlayer] = useState("R");
 
   const [winner, setWinner] = useState(null);
-  useEffect(() =>{ 
+  useEffect(() => {
     const win = checkWinner(board);
-    if (win){
-      setWinner(win);}
-    },[board]);
+    if (win) {
+      setWinner(win);
+    }
+  }, [board]);
 
   const handleClickCell = (colIndex) => {
     if (winner) return;
@@ -28,7 +29,6 @@ const Board = () => {
         setBoard(newBoard);
         setCurrentPlayer(currentPlayer === "R" ? "Y" : "R");
         break;
-        
       }
     }
   };
@@ -83,6 +83,11 @@ const Board = () => {
           return board[row][col];
         }
       }
+    }
+    //logic for checking if it is a draw
+    if (board.every((row) => row.every((cell) => cell))) {
+      setWinner("Draw");
+      return "Draw";
     }
     return null;
   }

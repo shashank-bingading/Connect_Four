@@ -1,11 +1,11 @@
 import React from 'react';
-import Board from './Components/board';
-
+import './styles/board.css';
+import GameRoom from './Components/gameRoom';
 
 function App() {
   return (
     <>
-      <Board/>
+      <GameRoom />
     </>
   );
 }

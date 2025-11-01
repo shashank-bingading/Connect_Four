@@ -1,106 +1,74 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import io from "socket.io-client";
 import "../styles/board.css";
-import { useState, useEffect } from "react";
 
-const Board = () => {
+const ServerURL = "http://localhost:3002"; 
+
+const Board = ({ gameId, playerId }) => {
   const rows = 6;
   const cols = 7;
-  const [board, setBoard] = useState(
-    Array(rows)
-      .fill(null)
-      .map(() => Array(cols).fill(null))
-  );
+  const socketRef = useRef();
+  const [board, setBoard] = useState(Array(rows).fill(null).map(() => Array(cols).fill(null)));
   const [currentPlayer, setCurrentPlayer] = useState("R");
-
+  const [playerColor, setPlayerColor] = useState(null);
   const [winner, setWinner] = useState(null);
+
   useEffect(() => {
-    const win = checkWinner(board);
-    if (win) {
-      setWinner(win);
-    }
-  }, [board]);
+    socketRef.current = io(ServerURL);
+
+    socketRef.current.emit("joinGameRoom", { gameId, playerId: playerId });
+
+    socketRef.current.on(
+      "gameUpdate",
+      ({ board, currentPlayer, winner, playerColor: colorFromServer, status }) => {
+        console.log(
+        "Player ID:", playerId,
+        "Player Color:", colorFromServer,
+        "Current Player Turn:", currentPlayer,
+        "Winner:", winner,
+        "Status:", status
+      );
+        setBoard(board);
+        setCurrentPlayer(currentPlayer);
+        setWinner(winner);
+        if (colorFromServer) setPlayerColor(colorFromServer);
+      }
+    );
+
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, [gameId, playerId]);
+
+
+  useEffect(() => {
+  console.log("Board state updated:", JSON.stringify(board));
+}, [board]);
+
 
   const handleClickCell = (colIndex) => {
     if (winner) return;
-    for (let row = rows - 1; row >= 0; row--) {
-      if (!board[row][colIndex]) {
-        const newBoard = board.map((ro) => [...ro]);
-        newBoard[row][colIndex] = currentPlayer;
-        setBoard(newBoard);
-        setCurrentPlayer(currentPlayer === "R" ? "Y" : "R");
-        break;
-      }
-    }
+    if (playerColor !== currentPlayer) return; 
+
+    socketRef.current.emit("makeMove", {
+      gameId,
+      colIndex,
+      playerId: playerId
+    });
   };
-  function checkWinner(board) {
-    // Check horizontal
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols - 3; col++) {
-        if (
-          board[row][col] &&
-          board[row][col] === board[row][col + 1] &&
-          board[row][col] === board[row][col + 2] &&
-          board[row][col] === board[row][col + 3]
-        ) {
-          return board[row][col];
-        }
-      }
-    }
-    // Check vertical
-    for (let col = 0; col < cols; col++) {
-      for (let row = 0; row < rows - 3; row++) {
-        if (
-          board[row][col] &&
-          board[row][col] === board[row + 1][col] &&
-          board[row][col] === board[row + 2][col] &&
-          board[row][col] === board[row + 3][col]
-        ) {
-          return board[row][col];
-        }
-      }
-    }
-    //Checking Diagonal down right
-    for (let row = 3; row < rows; row++) {
-      for (let col = 0; col < cols - 3; col++) {
-        if (
-          board[row][col] &&
-          board[row][col] === board[row - 1][col + 1] &&
-          board[row][col] === board[row - 2][col + 2] &&
-          board[row][col] === board[row - 3][col + 3]
-        ) {
-          return board[row][col];
-        }
-      }
-    }
-    //Other Diagonal up right
-    for (let row = 0; row < rows - 3; row++) {
-      for (let col = 0; col < cols - 3; col++) {
-        if (
-          board[row][col] &&
-          board[row][col] === board[row + 1][col + 1] &&
-          board[row + 2][col + 2] === board[row + 3][col + 3]
-        ) {
-          return board[row][col];
-        }
-      }
-    }
-    //logic for checking if it is a draw
-    if (board.every((row) => row.every((cell) => cell))) {
-      setWinner("Draw");
-      return "Draw";
-    }
-    return null;
-  }
 
   return (
     <div style={{ justifyContent: "center", alignItems: "center" }}>
       <h1>Connect Four Board</h1>
       <h2>
         {winner
-          ? `Winner: ${winner === "R" ? "Red" : "Yellow"}`
-          : `Current Turn: ${currentPlayer === "R" ? "Red" : "Yellow"}`}
+          ? winner === "Draw"
+            ? "It's a Draw!"
+            : `Winner: ${winner === "R" ? "Red" : "Yellow"}`
+          : playerColor === currentPlayer
+            ? "Your turn!"
+            : "Opponent's turn"}
       </h2>
-
       <div className="board">
         {board.map((a, rowindex) => (
           <div key={rowindex} className="row">
@@ -110,8 +78,8 @@ const Board = () => {
                 className="col"
                 onClick={() => handleClickCell(colindex)}
               >
-                {b == "R" && <div className="red-disc"></div>}
-                {b == "Y" && <div className="yellow-disc"></div>}
+                {b === "R" && <div className="red-disc"></div>}
+                {b === "Y" && <div className="yellow-disc"></div>}
               </div>
             ))}
           </div>

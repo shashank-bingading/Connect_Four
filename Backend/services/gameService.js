@@ -16,6 +16,8 @@ function joinGame(gameId, playerId) {
   if (!game) return false;
   if (game.players.length >= 2) return false;
 
+  if(game.players.includes(playerId)) return false;
+
   if (!game.playerColors) game.playerColors = {};
   const color = game.players.length === 0 ? "R" : "Y";
   game.playerColors[playerId] = color;
@@ -27,6 +29,7 @@ function joinGame(gameId, playerId) {
 
 function move(gameId, colIndex, playerId) {
   const game = games[gameId];
+  console.log("Attempting move:", {gameId, colIndex, playerId, game});
   if (!game || game.winner || game.status !== "playing") return false;
   if (game.playerColors[playerId] !== game.currentPlayer) return false;
 

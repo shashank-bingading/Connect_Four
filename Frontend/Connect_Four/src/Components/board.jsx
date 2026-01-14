@@ -1,85 +1,95 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import "../styles/board.css";
 
-const ServerURL = "http://localhost:3002"; 
+const ServerURL = "http://localhost:3002";
 
 const Board = ({ gameId, playerId }) => {
   const rows = 6;
   const cols = 7;
   const socketRef = useRef();
-  const [board, setBoard] = useState(Array(rows).fill(null).map(() => Array(cols).fill(null)));
-  const [currentPlayer, setCurrentPlayer] = useState("R");
-  const [playerColor, setPlayerColor] = useState(null);
+  
+  const [board, setBoard] = useState(
+    Array(rows).fill(null).map(() => Array(cols).fill(null))
+  );
+  const [currentPlayer, setCurrentPlayer] = useState("R"); // Current turn (R or Y)
+  const [playerColor, setPlayerColor] = useState(null);    // THIS player's assigned color
   const [winner, setWinner] = useState(null);
 
   useEffect(() => {
     socketRef.current = io(ServerURL);
 
-    socketRef.current.emit("joinGameRoom", { gameId, playerId: playerId });
+    // Joining the game
+    socketRef.current.emit("joinGameRoom", { gameId, playerId });
 
-    socketRef.current.on(
-      "gameUpdate",
-      ({ board, currentPlayer, winner, playerColor: colorFromServer, status }) => {
-        console.log(
-        "Player ID:", playerId,
-        "Player Color:", colorFromServer,
-        "Current Player Turn:", currentPlayer,
-        "Winner:", winner,
-        "Status:", status
-      );
-        setBoard(board);
-        setCurrentPlayer(currentPlayer);
-        setWinner(winner);
-        if (colorFromServer) setPlayerColor(colorFromServer);
+    socketRef.current.on("gameUpdate", (data) => {
+      // Destructuring everything from the game object here nothing special
+      const { board, currentPlayer, winner, playerColors, status } = data;
+
+      console.log("Update received for Player:", playerId);
+      
+      setBoard(board);
+      setCurrentPlayer(currentPlayer);
+      setWinner(winner);
+
+      // KEY FIX: Look up the color assigned to THIS specific playerId
+      if (playerColors && playerColors[playerId]) {
+        setPlayerColor(playerColors[playerId]);
+        console.log("My assigned color is:", playerColors[playerId]);
       }
-    );
+    });
 
     return () => {
       socketRef.current.disconnect();
     };
   }, [gameId, playerId]);
 
-
-  useEffect(() => {
-  console.log("Board state updated:", JSON.stringify(board));
-}, [board]);
-
-
   const handleClickCell = (colIndex) => {
     if (winner) return;
-    if (playerColor !== currentPlayer) return; 
+    
+    // Check if it's actually this player's turn
+    if (playerColor !== currentPlayer) {
+      console.log("Not your turn! You are:", playerColor, "Current turn:", currentPlayer);
+      return;
+    }
 
     socketRef.current.emit("makeMove", {
       gameId,
       colIndex,
-      playerId: playerId
+      playerId,
     });
   };
 
   return (
-    <div style={{ justifyContent: "center", alignItems: "center" }}>
-      <h1>Connect Four Board</h1>
-      <h2>
-        {winner
-          ? winner === "Draw"
-            ? "It's a Draw!"
-            : `Winner: ${winner === "R" ? "Red" : "Yellow"}`
-          : playerColor === currentPlayer
-            ? "Your turn!"
-            : "Opponent's turn"}
-      </h2>
+    <div className="game-container" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <h1>Connect Four</h1>
+      
+      <div className="status-header">
+        {winner ? (
+          <h2 className="winner-text">
+            {winner === "Draw" ? "It's a Draw!" : `Winner: ${winner === "R" ? "Red" : "Yellow"}`}
+          </h2>
+        ) : (
+          <h2 className={playerColor === currentPlayer ? "your-turn" : "opponent-turn"}>
+            {playerColor === currentPlayer ? "Your turn!" : "Opponent's turn"}
+            <span style={{ fontSize: '0.8rem', display: 'block' }}>
+              (You are: {playerColor === "R" ? "Red" : "Yellow"})
+            </span>
+          </h2>
+        )}
+      </div>
+
       <div className="board">
-        {board.map((a, rowindex) => (
+        {board.map((row, rowindex) => (
           <div key={rowindex} className="row">
-            {a.map((b, colindex) => (
+            {row.map((cell, colindex) => (
               <div
                 key={colindex}
                 className="col"
                 onClick={() => handleClickCell(colindex)}
               >
-                {b === "R" && <div className="red-disc"></div>}
-                {b === "Y" && <div className="yellow-disc"></div>}
+                {cell === "R" && <div className="red-disc"></div>}
+                {cell === "Y" && <div className="yellow-disc"></div>}
               </div>
             ))}
           </div>

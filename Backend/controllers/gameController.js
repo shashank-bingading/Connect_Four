@@ -1,6 +1,6 @@
 const gameService = require("../services/gameService");
 
-const createGame = (req, res) => {
+const createGame = (_, res) => {
   const game = gameService.newGame();
   res.json({ gameId: game.id });
 };

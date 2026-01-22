@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Board from "./board";
 
@@ -53,17 +53,35 @@ const GameRoom = () => {
   }
 
   return (
-    <div>
-      <h2>Connect Four - Game Lobby</h2>
-      <button onClick={handleCreateGame}>Create New Game</button>
-      <div style={{ marginTop: 16 }}>
-        <input
-          placeholder="Enter Room ID"
-          value={gameId}
-          onChange={(e) => setGameId(e.target.value)}
-          style={{ marginRight: 8 }}
-        />
-        <button onClick={handleJoinGame}>Join Room</button>
+    <div className="bg-olive-cornsilk min-h-screen w-full font-sans font-medium flex flex-col justify-center items-center ">
+      <h1 className="text-5xl font-black text-olive-copper tracking-tighter drop-shadow-md">
+        Connect <span className="text-olive-caramel">Four</span> Online
+      </h1>
+      <div className="bg-olive-forest rounded-md shadow-2xl p-8 w-[90%] md:w-full md:max-w-md border border-olive-leaf">
+        <h2 className="text-olive-cornsilk to-yellow-400 text-3xl ">
+          Play Game
+        </h2>
+        <button
+          onClick={handleCreateGame}
+          className="bg-olive-leaf text-olive-cornsilk px-4 py-2 rounded-md mb-4 w-full"
+        >
+          Create New Game
+        </button>
+        <div className="mt-4 flex flex-col gap-2">
+          <input
+            placeholder="Enter Room ID"
+            value={gameId}
+            onChange={(e) => setGameId(e.target.value)}
+            style={{ marginRight: 8 }}
+            className="bg-olive-cornsilk border border-olive-caramel px-2 py-1 rounded-md text-olive-forest"
+          />
+          <button
+            onClick={handleJoinGame}
+            className="bg-olive-leaf text-olive-cornsilk px-2 py-2 rounded-md "
+          >
+            Join Game Room
+          </button>
+        </div>
       </div>
     </div>
   );

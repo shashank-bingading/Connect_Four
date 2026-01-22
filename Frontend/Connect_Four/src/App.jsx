@@ -1,5 +1,4 @@
-import React from 'react';
-import './styles/board.css';
+import './index.css';
 import GameRoom from './Components/gameRoom';
 
 function App() {

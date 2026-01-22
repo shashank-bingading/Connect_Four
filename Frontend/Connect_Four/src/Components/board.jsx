@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
-import "../styles/board.css";
 
 const ServerURL = "http://localhost:3002";
 
@@ -23,14 +22,14 @@ const Board = ({ gameId, playerId }) => {
     socketRef.current.emit("joinGameRoom", { gameId, playerId });
 
     socketRef.current.on("gameUpdate", (data) => {
-      // Destructuring everything from the game object here nothing special
-      const { board, currentPlayer, winner, playerColors, status } = data;
+    // Destructuring everything from the game object here nothing special
+    const { board, currentPlayer, winner, playerColors } = data;
 
-      console.log("Update received for Player:", playerId);
+    console.log("Update received for Player:", playerId);
       
-      setBoard(board);
-      setCurrentPlayer(currentPlayer);
-      setWinner(winner);
+    setBoard(board);
+    setCurrentPlayer(currentPlayer);
+    setWinner(winner);
 
       // KEY FIX: Look up the color assigned to THIS specific playerId
       if (playerColors && playerColors[playerId]) {

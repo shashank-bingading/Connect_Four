@@ -13,3 +13,4 @@ const joinGame = (req, res) => {
 };
 
 module.exports = { createGame, joinGame };
+

@@ -3,7 +3,7 @@ const games = {};
 
 function newGame() {
   const id = Math.random().toString(36).substr(2, 6);
-  games[id] = createGame(id);
+  games[id] = createGame(id);//<--
   return games[id];
 }
 
@@ -15,7 +15,7 @@ function joinGame(gameId, playerId) {
   const game = games[gameId];
   if (!game) return false;
   if (game.players.length >= 2) return false;
-
+  //preventing joining twice with the same player ID :(
   if(game.players.includes(playerId)) return false;
 
   if (!game.playerColors) game.playerColors = {};
@@ -29,11 +29,13 @@ function joinGame(gameId, playerId) {
 
 function move(gameId, colIndex, playerId) {
   const game = games[gameId];
+  //Testing something here
   console.log("Attempting move:", {gameId, colIndex, playerId, game});
   if (!game || game.winner || game.status !== "playing") return false;
   if (game.playerColors[playerId] !== game.currentPlayer) return false;
 
   const newBoard = game.board.map((row) => row.slice());
+  //Logic for dropping the piece
   for (let row = 5; row >= 0; row--) {
     if (!newBoard[row][colIndex]) {
       newBoard[row][colIndex] = game.currentPlayer;
@@ -54,7 +56,7 @@ function move(gameId, colIndex, playerId) {
 
 function checkWinner(board) {
   const rows = board.length,
-    cols = board[0].length;
+  cols = board[0].length;
   // Horizontal check
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols - 3; c++) {

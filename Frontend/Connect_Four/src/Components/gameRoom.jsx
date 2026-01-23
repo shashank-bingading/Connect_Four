@@ -34,11 +34,13 @@ const GameRoom = () => {
   };
   if (isJoined && gameId) {
     return (
-      <div>
-        <p>
-          <strong>Room ID:</strong> {gameId}
+      <div className="bg-olive-cornsilk min-h-screen flex flex-col items-center">
+        <div className="mt-8 flex items-center gap-4 bg-olive-forest/10 p-4 rounded-xl border border-olive-forest/20">
+        <p className="text-olive-forest font-bold">
+          Room ID: <span className="font-mono bg-white px-2 py-1 rounded ml-2">{gameId}</span>
+          </p>
           <button
-            style={{ marginLeft: "8px" }}
+            className="bg-olive-forest text-white px-3 py-1 rounded-md text-sm hover:bg-olive-caramel transition-colors"
             onClick={() => {
               navigator.clipboard.writeText(gameId);
               alert("Room ID copied!");
@@ -46,7 +48,8 @@ const GameRoom = () => {
           >
             Copy
           </button>
-        </p>
+        
+        </div>
         <Board gameId={gameId} playerId={playerId} />
       </div>
     );
@@ -54,7 +57,7 @@ const GameRoom = () => {
 
   return (
     <div className="bg-olive-cornsilk min-h-screen w-full font-sans font-medium flex flex-col justify-center items-center ">
-      <h1 className="text-5xl font-black text-olive-copper tracking-tighter drop-shadow-md">
+      <h1 className="text-5xl font-black text-olive-copper tracking-tighter drop-shadow-md mb-2">
         Connect <span className="text-olive-caramel">Four</span> Online
       </h1>
       <div className="bg-olive-forest rounded-md shadow-2xl p-8 w-[90%] md:w-full md:max-w-md border border-olive-leaf">
@@ -63,7 +66,7 @@ const GameRoom = () => {
         </h2>
         <button
           onClick={handleCreateGame}
-          className="bg-olive-leaf text-olive-cornsilk px-4 py-2 rounded-md mb-4 w-full"
+          className="bg-olive-leaf text-olive-cornsilk px-4 py-2 rounded-md mb-4 w-full hover:bg-olive-caramel"
         >
           Create New Game
         </button>
@@ -77,7 +80,7 @@ const GameRoom = () => {
           />
           <button
             onClick={handleJoinGame}
-            className="bg-olive-leaf text-olive-cornsilk px-2 py-2 rounded-md "
+            className="bg-olive-leaf text-olive-cornsilk px-2 py-2 rounded-md hover:bg-olive-caramel"
           >
             Join Game Room
           </button>

@@ -82,8 +82,10 @@ const Board = ({ gameId, playerId }) => {
           </h2>
         ) : (
           <h2
-            className={`text-xl font-bold p-2 rounded-lg transition-all${
-              playerColor === currentPlayer ? "text-olive-caramel bg-white/50 shadow-sm" : "text-olive-copper opacity-60"
+            className={`text-xl font-bold p-2 rounded-lg transition-all ${
+              playerColor === currentPlayer
+                ? "text-olive-caramel bg-white/50 shadow-sm"
+                : "text-olive-copper opacity-60"
             }`}
           >
             {playerColor === currentPlayer ? "Your turn!" : "Opponent's turn"}
@@ -94,19 +96,23 @@ const Board = ({ gameId, playerId }) => {
         )}
       </div>
       {/* the board */}
-      <div className="bg-olive-forest p-3 rounded-2xl shadow-xl border-b-4 border-black/20">
-        {board.map((row, rowindex) => (
-          <div key={rowindex} className="flex flex-row">
-            {row.map((cell, colindex) => (
+      <div className="bg-olive-forest p-3 rounded-2xl shadow-xl border-b-4 border-black/20 flex flex-row">
+        {[...Array(cols)].map((_, colindex) => (
+          <div
+            key={colindex}
+            onClick={() => handleClickCell(colindex)}
+            className={`flex flex-col rounded-xl transition-colors duration-200 
+              ${playerColor === currentPlayer && !winner ? "hover:bg-white/10 cursor-pointer" : "cursor-default"}`}
+          >
+            {board.map((boardRow, rowindex) => (
               <div
-                key={colindex}
-                className="w-12 h-12 md:w-16 md:h-16 bg-black/40 rounded-full m-1 flex items-center justify-center cursor-pointer hover:bg-black/20 transition-all"
-                onClick={() => handleClickCell(colindex)}
+                key={rowindex}
+                className="w-12 h-12 md:w-16 md:h-16 bg-black/40 rounded-full m-1 flex items-center justify-center transition-all"
               >
-                {cell === "R" && (
+                {boardRow[colindex] === "R" && (
                   <div className="w-[85%] h-[85%] rounded-full bg-red-600 shadow-md animate-drop pointer-events-none"></div>
                 )}
-                {cell === "Y" && (
+                {boardRow[colindex] === "Y" && (
                   <div className="w-[85%] h-[85%] rounded-full bg-olive-caramel shadow-md animate-drop pointer-events-none"></div>
                 )}
               </div>

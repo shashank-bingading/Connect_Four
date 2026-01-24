@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import Board from "./board";
 
-const SERVER_URL = "http://localhost:3002";
+const SERVER_URL = "https://connect-four-backend-ak13.onrender.com";
 
 const GameRoom = () => {
   const [playerId] = useState(() => Math.random().toString(36).substr(2, 6));

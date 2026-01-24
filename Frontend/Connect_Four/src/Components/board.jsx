@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 
-const ServerURL = "http://localhost:3002";
+const ServerURL = "https://connect-four-backend-ak13.onrender.com";
 
 const Board = ({ gameId, playerId }) => {
   const rows = 6;

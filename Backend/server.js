@@ -8,7 +8,7 @@ const cors = require("cors");
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://connect-four-frontend-ruz5.onrender.com",
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -20,7 +20,7 @@ app.use("/api/game", gameRoutes);
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://connect-four-frontend-ruz5.onrender.com",
     methods: ["GET", "POST"],
   },
 });

@@ -26,5 +26,5 @@ const io = socketio(server, {
 });
 socketHandler(io);
 
-const PORT = 3002;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const port = process.env.PORT || 3002;
+server.listen(port, () => console.log(`Server running on port ${port}`));

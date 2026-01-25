@@ -41,57 +41,67 @@ A modern, full-stack rendition of the classic Connect Four game. Experience seam
 
 ## 📁 Project Structure
 
-```bash
+```text
 Connect_Four/
-├── 📂 Backend/               # Express server & Socket.io logic
-│   ├── 📂 controllers/       # Game logic handlers
-│   ├── 📂 socket/            # WebSocket event management
-│   └── server.js             # Entry point
-└── 📂 Frontend/              # React Vite application
-    ├── 📂 src/
-    │   ├── 📂 components/    # Modular UI (Board, Cell, etc.)
-    │   └── App.jsx           # Core application state
-    └── vite.config.js        # Build configuration
+├── 📂 Backend/
+│   ├── 📂 controllers/        # gameController.js
+│   ├── 📂 models/             # gameModel.js
+│   ├── 📂 routes/             # gameRoutes.js
+│   ├── 📂 services/           # gameService.js
+│   ├── 📂 socket/             # socketHandler.js
+│   └── server.js              # Entry point
+└── 📂 Frontend/
+    └── 📂 Connect_Four/
+        ├── 📂 src/
+        │   ├── 📂 Components/ # board.jsx, gameRoom.jsx
+        │   ├── App.jsx
+        │   └── main.jsx
+        ├── index.html
+        └── vite.config.js
+```
+## 🎮 How to Play
 
-🎮 How to Play
-Join a Room: Enter a room name to join an existing game or start a new one.
+* **Join a Room:** Enter a room name to join an existing game or start a new one.
+* **Objective:** Be the first player to get **four** of your colored discs in a row (horizontal, vertical, or diagonal).
+* **Taking Turns:** Players drop one disc per turn into a multi-column grid. The disc falls to the lowest available space.
+* **Winning:** The game ends immediately when a player connects four.
 
-Objective: Be the first player to get four of your colored discs in a row (horizontal, vertical, or diagonal).
+---
 
-Taking Turns: Players drop one disc per turn into a multi-column grid. The disc falls to the lowest available space within the column.
+## 🛠️ Installation & Setup
 
-Winning: The game ends immediately when a player connects four.
+### Prerequisites
+* **Node.js** (v18+)
+* **npm** or **yarn**
 
-🛠️ Installation & Setup (For Open Source)
-Prerequisites
-Node.js (v18+)
-
-npm or yarn
-
-1. Clone the repository
-Bash
-git clone https://github.com/your-username/Connect_Four.git
+### 1. Clone the repository
+```bash
+git clone https://github.com/shashank-bingading/Connect_Four.git
 cd Connect_Four
-2. Setup Backend
-Bash
+```
+### 2. Setup Backend
+```bash
 cd Backend
 npm install
 npm start
-3. Setup Frontend
-Bash
-cd ../Frontend/Connect_Four
+```
+### 3. Setup Frontend
+```bash
+cd Frontend/Connect_Four
 npm install
 npm run dev
+```
+## 🤝 Open Source & Contributing
 
-🤝 Contributing
-Contributions are welcome! If you have a feature request or find a bug, please open an issue or submit a pull request.
+Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
--->Fork the Project.
+1. **Fork** the Project.
+2. **Create** your Feature Branch: 
+   `git checkout -b feature/AmazingFeature`
+3. **Commit** your Changes: 
+   `git commit -m 'Add some AmazingFeature'`
+4. **Push** to the Branch: 
+   `git push origin feature/AmazingFeature`
+5. **Open** a Pull Request.
 
--->Create your Feature Branch (git checkout -b feature/AmazingFeature).
-
--->Commit your Changes (git commit -m 'Add some AmazingFeature').
-
--->Push to the Branch (git push origin feature/AmazingFeature).
-
--->Open a Pull Request.
+---

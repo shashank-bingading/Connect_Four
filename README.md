@@ -20,9 +20,11 @@ A modern, full-stack rendition of the classic Connect Four game. Experience seam
 
 ##  Key Features
 
-** Real-time Multiplayer**: Powered by **WebSockets (Socket.io)** for zero-latency move synchronization.
-** Dynamic Room System**: Create custom rooms or join friends instantly using unique room codes.
-** Server-Side Logic**: Win detection (horizontal, vertical, diagonal) is calculated on the server to ensure game integrity.
+**Real-time Multiplayer**: Powered by **WebSockets(Socket.io)** for zero-latency move synchronization.
+
+**Dynamic Room System**: Create custom rooms or join friends instantly using unique room codes.
+
+**Server-Side Logic**: Win detection (horizontal, vertical, diagonal) is calculated on the server to ensure game integrity.
 ---
 
 ## 🛠️ Tech Stack

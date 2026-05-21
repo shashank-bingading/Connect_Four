@@ -28,7 +28,7 @@ A modern, full-stack rendition of the classic Connect Four game. Experience seam
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 | :--- | :--- |
@@ -39,7 +39,7 @@ A modern, full-stack rendition of the classic Connect Four game. Experience seam
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```text
 Connect_Four/
@@ -59,7 +59,7 @@ Connect_Four/
         ├── index.html
         └── vite.config.js
 ```
-## 🎮 How to Play
+##  How to Play
 
 * **Join a Room:** Enter a room name to join an existing game or start a new one.
 * **Objective:** Be the first player to get **four** of your colored discs in a row (horizontal, vertical, or diagonal).
@@ -68,7 +68,7 @@ Connect_Four/
 
 ---
 
-## 🛠️ Installation & Setup
+##  Installation & Setup
 
 ### Prerequisites
 * **Node.js** (v18+)
@@ -91,7 +91,7 @@ cd Frontend/Connect_Four
 npm install
 npm run dev
 ```
-## 🤝 Open Source & Contributing
+##  Open Source & Contributing
 
 Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
